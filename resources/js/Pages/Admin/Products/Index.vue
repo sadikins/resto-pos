@@ -1,21 +1,20 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import Pagination from "@/Components/Pagination.vue";
-import { ref } from "vue";
-import { Inertia } from "@inertiajs/inertia";
-import ButtonLink from "@/Components/ButtonLink.vue";
-import Swal from "sweetalert2";
+    import AdminLayout from '@/Layouts/AdminLayout.vue';
+    import Pagination from '@/Components/Pagination.vue';
+    import ButtonLink from "@/Components/ButtonLink.vue";
+    import {Link} from '@inertiajs/inertia-vue3';
+    import {ref} from 'vue';
+    import Swal from 'sweetalert2';
+import { Inertia } from '@inertiajs/inertia';
 
-const props = defineProps({
-    categories: Object,
-    tbl_number: Number,
-});
+    const props = defineProps({
+        'products': Object,
+    });
 
-// Search
-const search = ref("" || new URL(document.location).searchParams.get("q"));
+    const search = ref("" || new URL(document.location).searchParams.get("q"));
 
 const handleSearch = () => {
-    Inertia.get(route("categories.index"), {
+    Inertia.get(route("products.index"), {
         q: search.value,
     });
 };
@@ -32,11 +31,11 @@ const destroy = (id) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            Inertia.delete(route("categories.destroy", `${id}`));
+            Inertia.delete(route("products.destroy", `${id}`));
 
             Swal.fire({
                 title: "Deleted!",
-                text: "Category deleted successfully,",
+                text: "Product deleted successfully,",
                 icon: "success",
                 timer: 2000,
                 showConfirmButton: false,
@@ -44,19 +43,23 @@ const destroy = (id) => {
         }
     });
 };
+
 </script>
 
 <template>
+
     <AdminLayout>
+
         <template #title>
-            <h2 class="text-3xl font-semibold leading-loose text-white">
-                Categories
+             <h2 class="text-3xl font-semibold leading-loose text-white">
+                Products
             </h2>
             <div class="text-gray-200">Tuesday 2 Feb, 2002</div>
         </template>
 
-        <!-- Content -->
-        <div class="p-5 md:p-10 bg-gray-900 rounded-lg">
+        <!-- content -->
+
+          <div class="p-5 md:p-10 bg-gray-900 rounded-lg">
 
             <!-- Search bar -->
             <div class="flex flex-col md:flex-row  gap-3 md:gap-0 justify-between pb-4 mt-5">
@@ -83,13 +86,13 @@ const destroy = (id) => {
                         type="text"
                         class="py-3 bg-transparent border-0 text-white focus:ring-0"
                         v-model="search"
-                        placeholder="search by category name..."
+                        placeholder="search by product name..."
                     />
                 </form>
 
                 <!-- Button Create New  -->
                 <ButtonLink
-                :href="route('categories.create')"
+                :href="route('products.create')"
                 :class="`bg-primary  text-white`"
                 >Create New
                 </ButtonLink>
@@ -100,10 +103,11 @@ const destroy = (id) => {
                 <thead>
                     <tr class="text-sm font-semibold text-white">
                         <td class="py-4 border-b border-gray-700">#</td>
-                        <td class="py-4 border-b border-gray-700">Name</td>
-                        <td class="py-4 border-b border-gray-700">
-                            Description
-                        </td>
+                        <td class="py-4 border-b border-gray-700">Barcode</td>
+                        <td class="py-4 border-b border-gray-700">Title</td>
+                        <td class="py-4 border-b border-gray-700">By Price</td>
+                        <td class="py-4 border-b border-gray-700">Sell Price</td>
+                        <td class="py-4 border-b border-gray-700">Stock</td>
                         <td class="py-4 border-b border-gray-700 text-center">
                             Action
                         </td>
@@ -111,7 +115,7 @@ const destroy = (id) => {
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(category, key) in categories.data"
+                        v-for="(product, key) in products.data"
                         :key="key"
                         class="text-sm text-gray-500"
                     >
@@ -120,27 +124,30 @@ const destroy = (id) => {
                             <div class="flex gap-4 items-center">
                                 <img
                                     width="32"
-                                    :src="category.image"
+                                    :src="product.image"
                                     alt=""
                                     class="hidden md:block"
                                 />
                                 <span class="text-white font-bold">
-                                    {{ category.name }}
+                                    {{ product.barcode }}
                                 </span>
                             </div>
                         </td>
-                        <td class="py-4">{{ category.description }}</td>
+                        <td class="py-4">{{ product.title }}</td>
+                        <td class="py-4">{{ product.buy_price }}</td>
+                        <td class="py-4">{{ product.sell_price }}</td>
+                        <td class="py-4">{{ product.stock }}</td>
                         <td class="py-4 space-x-2 text-center">
                             <ButtonLink
                                 :href="
-                                    route('categories.edit', `${category.id}`)
+                                    route('products.edit', `${product.id}`)
                                 "
                                 :class="` md:bg-accent-orange/20  text-accent-orange`"
                             >
                                 Edit
                             </ButtonLink>
                             <ButtonLink
-                                @click.prevent="destroy(category.id)"
+                                @click.prevent="destroy(product.id)"
                                 :class="` md:bg-accent-red/20  text-accent-red`"
                             >
                                 Delete
@@ -151,12 +158,15 @@ const destroy = (id) => {
             </table>
 
             <div class="mb-5 mt-7">
-                <Pagination :links="categories.links" />
+                <Pagination :links="products.links" />
             </div>
         </div>
 
-        <!-- End of Content -->
+        <template #aside>
 
-        <template #aside> </template>
+        </template>
+
+
     </AdminLayout>
+
 </template>

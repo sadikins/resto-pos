@@ -1,0 +1,200 @@
+<template>
+    <AdminLayout>
+        <template #title>
+            <h2 class="text-3xl font-semibold leading-loose text-white">
+                Create products
+            </h2>
+            <div class="text-gray-200">Tuesday 2 Feb, 2002</div>
+        </template>
+        <!-- Content -->
+        <div class="container sm:w-full lg:w-1/2 bg-gray-900 rounded-md p-8">
+            <form @submit.prevent="submit">
+                <Link
+                    href="/admin/products"
+                    class="flex justify-end text-gray-500"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </Link>
+                <div class="mb-3">
+                    <input
+                        class="py-3 text-gray-300"
+                        @input="form.image = $event.target.files[0]"
+                        :class="{ 'border-accent-red': errors.image }"
+                        type="file"
+                    />
+                    <div v-if="errors.image" class="text-accent-red">
+                        {{ errors.image }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="barcode" class="text-white mb-3">Barcode</label>
+                    <input
+                        type="text"
+                        class="px-3 text-gray-300 rounded-md bg-gray-700 w-full"
+                        v-model="form.barcode"
+                        :class="{ 'border-accent-red': errors.barcode }"
+                        placeholder="product barcode"
+                    />
+                    <div v-if="errors.barcode" class="text-accent-red">
+                        {{ errors.barcode }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="text-white mb-5">Category</label>
+                    <select v-model="form.category_id" class="px-3 text-gray-300 rounded-md bg-gray-700 w-full" :class="{'border-accent-red': errors.category_id }">
+                        <option selected disabled>Category</option>
+                        <option v-for="(category, index) in categories" :key="index" :value="category.id">{{ category.name }}</option>
+                    </select>
+
+                    <div v-if="errors.category_id" :class="`text-accent-red`">
+                        {{ errors.category_id }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="text-white mb-3">Title</label>
+                    <input
+                        type="text"
+                        class="px-3 text-gray-300 rounded-md bg-gray-700 w-full"
+                        v-model="form.title"
+                        :class="{ 'border-accent-red': errors.title }"
+                        placeholder="product title"
+                    />
+                    <div v-if="errors.title" class="text-accent-red">
+                        {{ errors.title }}
+                    </div>
+                </div>
+                 <div class="mb-3">
+                    <label for="description" class="text-white mb-3">Description</label>
+
+                    <textarea class="px-3 text-gray-300 rounded-md bg-gray-700 w-full" v-model="form.description" :class="{'border-accent-red':errors.description}" type="text"  rows="5" placeholder="Description"></textarea>
+                   
+                    <div v-if="errors.description" class="text-accent-red">
+                        {{ errors.description }}
+                    </div>
+                </div>
+                  <div class="mb-3">
+                    <label for="buy price" class="text-white mb-3">Buy Price</label>
+                    <input
+                        type="text"
+                        class="px-3 text-gray-300 rounded-md bg-gray-700 w-full"
+                        v-model="form.buy_price"
+                        :class="{ 'border-accent-red': errors.buy_price }"
+                        placeholder="product buy_price"
+                    />
+                    <div v-if="errors.buy_price" class="text-accent-red">
+                        {{ errors.buy_price }}
+                    </div>
+                </div>
+                 <div class="mb-3">
+                    <label for="sell price" class="text-white mb-3">Sell Price</label>
+                    <input
+                        type="text"
+                        class="px-3 text-gray-300 rounded-md bg-gray-700 w-full "
+                        v-model="form.sell_price"
+                        :class="{ 'border-accent-red': errors.sell_price }"
+                        placeholder="product sell_price"
+                    />
+                    <div v-if="errors.sell_price" class="text-accent-red">
+                        {{ errors.sell_price }}
+                    </div>
+                </div>
+                 <div class="mb-3">
+                    <label for="stock" class="text-white mb-3">Stock</label>
+                    <input
+                        type="text"
+                        class="px-3 text-gray-300 rounded-md bg-gray-700 w-full"
+                        v-model="form.stock"
+                        :class="{ 'border-accent-red': errors.stock }"
+                        placeholder="product stock"
+                    />
+                    <div v-if="errors.stock" class="text-accent-red">
+                        {{ errors.stock }}
+                    </div>
+                </div>
+               
+                <div class="mt-5">
+                    <ButtonPrimary
+                        :class="`mb-3 font-bold text-center  w-full bg-primary border-primary hover:text-primary text-white py-3`"
+                    >
+                        SAVE
+                    </ButtonPrimary>
+
+                    <ButtonPrimary
+                        :type="`reset`"
+                        :class="`w-full font-bold text-gray-300 py-3`"
+                    >
+                        RESET
+                    </ButtonPrimary>
+                </div>
+            </form>
+        </div>
+        <!-- End of Content -->
+        <template #aside> </template>
+    </AdminLayout>
+</template>
+
+<script setup>
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { Link } from "@inertiajs/inertia-vue3";
+import { reactive } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import Swal from "sweetalert2";
+
+import ButtonPrimary from "@/Jetstream/Button.vue";
+
+defineProps({
+    errors: Object,
+    categories: Array,
+});
+
+const form = reactive({
+    image: "",
+    barcode: "",
+    category_id: "",
+    title: "",
+    description: "",
+    buy_price: "",
+    sell_price: "",
+    stock: "",
+});
+
+const submit = () => {
+    Inertia.post(
+        route("products.store"),
+        {
+            image: form.image,
+            barcode: form.barcode,
+            category_id: form.category_id,
+            title: form.title,
+            description: form.description,
+            buy_price: form.buy_price,
+            sell_price: form.sell_price,
+            stock: form.stock,
+        },
+        {
+            onSuccess: () => {
+                Swal.fire({
+                    title: "Success",
+                    text: "product saved successfully.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            },
+        }
+    );
+};
+</script>

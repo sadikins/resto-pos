@@ -7,7 +7,7 @@ import ButtonLink from "@/Components/ButtonLink.vue";
 import Swal from "sweetalert2";
 
 const props = defineProps({
-    categories: Object,
+    customers: Object,
     tbl_number: Number,
 });
 
@@ -15,7 +15,7 @@ const props = defineProps({
 const search = ref("" || new URL(document.location).searchParams.get("q"));
 
 const handleSearch = () => {
-    Inertia.get(route("categories.index"), {
+    Inertia.get(route("customers.index"), {
         q: search.value,
     });
 };
@@ -32,11 +32,11 @@ const destroy = (id) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            Inertia.delete(route("categories.destroy", `${id}`));
+            Inertia.delete(route("customers.destroy", `${id}`));
 
             Swal.fire({
                 title: "Deleted!",
-                text: "Category deleted successfully,",
+                text: "customer deleted successfully,",
                 icon: "success",
                 timer: 2000,
                 showConfirmButton: false,
@@ -50,7 +50,7 @@ const destroy = (id) => {
     <AdminLayout>
         <template #title>
             <h2 class="text-3xl font-semibold leading-loose text-white">
-                Categories
+                customers
             </h2>
             <div class="text-gray-200">Tuesday 2 Feb, 2002</div>
         </template>
@@ -83,13 +83,13 @@ const destroy = (id) => {
                         type="text"
                         class="py-3 bg-transparent border-0 text-white focus:ring-0"
                         v-model="search"
-                        placeholder="search by category name..."
+                        placeholder="search by customer name..."
                     />
                 </form>
 
                 <!-- Button Create New  -->
                 <ButtonLink
-                :href="route('categories.create')"
+                :href="route('customers.create')"
                 :class="`bg-primary  text-white`"
                 >Create New
                 </ButtonLink>
@@ -101,8 +101,9 @@ const destroy = (id) => {
                     <tr class="text-sm font-semibold text-white">
                         <td class="py-4 border-b border-gray-700">#</td>
                         <td class="py-4 border-b border-gray-700">Name</td>
+                        <td class="py-4 border-b border-gray-700">Phone</td>
                         <td class="py-4 border-b border-gray-700">
-                            Description
+                            Address
                         </td>
                         <td class="py-4 border-b border-gray-700 text-center">
                             Action
@@ -111,36 +112,25 @@ const destroy = (id) => {
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(category, key) in categories.data"
+                        v-for="(customer, key) in customers.data"
                         :key="key"
                         class="text-sm text-gray-500"
                     >
                         <td class="py-4">#</td>
-                        <td class="py-4">
-                            <div class="flex gap-4 items-center">
-                                <img
-                                    width="32"
-                                    :src="category.image"
-                                    alt=""
-                                    class="hidden md:block"
-                                />
-                                <span class="text-white font-bold">
-                                    {{ category.name }}
-                                </span>
-                            </div>
-                        </td>
-                        <td class="py-4">{{ category.description }}</td>
+                        <td class="py-4">{{ customer.name }} </td>
+                        <td class="py-4">{{ customer.phone }} </td>
+                        <td class="py-4">{{ customer.address }}</td>
                         <td class="py-4 space-x-2 text-center">
                             <ButtonLink
                                 :href="
-                                    route('categories.edit', `${category.id}`)
+                                    route('customers.edit', `${customer.id}`)
                                 "
                                 :class="` md:bg-accent-orange/20  text-accent-orange`"
                             >
                                 Edit
                             </ButtonLink>
                             <ButtonLink
-                                @click.prevent="destroy(category.id)"
+                                @click.prevent="destroy(customer.id)"
                                 :class="` md:bg-accent-red/20  text-accent-red`"
                             >
                                 Delete
@@ -151,7 +141,7 @@ const destroy = (id) => {
             </table>
 
             <div class="mb-5 mt-7">
-                <Pagination :links="categories.links" />
+                <Pagination :links="customers.links" />
             </div>
         </div>
 

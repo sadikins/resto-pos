@@ -10,6 +10,7 @@ import MostTypeOfOrder from "../Components/MostTypeOfOrder.vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
 import JetNavLink from "@/Jetstream/NavLink.vue";
+import SectionBorder from "@/Jetstream/SectionBorder.vue";
 
 defineProps({
     title: String,
@@ -37,7 +38,10 @@ const logout = () => {
 <template>
     <Head :title="title" />
     <div class="flex w-full min-h-screen font-sans bg-gray-800">
+        <!-- Sidebar Menu -->
         <Sidebar />
+
+        <!-- Main Section -->
         <main class="flex flex-col flex-1 gap-6 p-4">
             <header class="flex justify-between">
                 <div>
@@ -104,21 +108,11 @@ const logout = () => {
                                                         .current_team
                                                 )
                                             "
-                                            v-if="
-                                                $page.props.user
-                                                    .current_team_id == 1
-                                            "
                                         >
                                             Team Settings
                                         </JetDropdownLink>
 
                                         <JetDropdownLink
-                                            v-if="
-                                                $page.props.jetstream
-                                                    .canCreateTeams &&
-                                                $page.props.user
-                                                    .current_team_id == 1
-                                            "
                                             :href="route('teams.create')"
                                         >
                                             Create New Team
@@ -256,9 +250,14 @@ const logout = () => {
             <hr class="border-gray-700" />
 
             <slot> </slot>
+
         </main>
+
+        <!-- Aside -->
         <aside class="flex flex-col gap-y-6 pt-6 pr-6 w-96">
             <slot name="aside"> </slot>
         </aside>
+
+        <!-- Footer -->
     </div>
 </template>

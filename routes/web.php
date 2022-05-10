@@ -3,8 +3,10 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,8 +42,10 @@ Route::middleware([
 
     Route::get('/admin', [DashboardController::class,'index'])->name('admin/index');
     Route::get('/admin/show', [DashboardController::class,'show'])->name('admin/show');
-    Route::get('/admin/customers', [CustomerController::class,'index'])->name('admin/customers');
+    Route::resource('/admin/customers', CustomerController::class);
     Route::get('/admin/settings', [SettingController::class, 'index'])->name('admin/settings');
     Route::get('/admin/reports', [ReportController::class, 'index'])->name('admin/reports');
     Route::resource('admin/categories', CategoryController::class);
+    Route::resource('admin/products', ProductController::class);
+    Route::resource('admin/transactions', TransactionController::class);
 });

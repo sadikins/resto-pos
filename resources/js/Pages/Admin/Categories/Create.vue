@@ -2,12 +2,12 @@
     <AdminLayout>
         <template #title>
             <h2 class="text-3xl font-semibold leading-loose text-white">
-                Categories
+                Create Categories
             </h2>
             <div class="text-gray-200">Tuesday 2 Feb, 2002</div>
         </template>
         <!-- Content -->
-        <div class="container w-1/2 bg-gray-900 rounded-md p-8">
+        <div class="container sm:w-full lg:w-1/2 bg-gray-900 rounded-md p-8">
             <form @submit.prevent="submit">
                 <Link
                     href="/admin/categories"
@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import AdminLayout from "../../../Layouts/AdminLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";

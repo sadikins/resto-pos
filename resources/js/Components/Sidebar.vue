@@ -49,14 +49,14 @@ const menus = [
     {
         name: "Dashboard",
         icon: HomeIcon,
-        link: "dashboard",
+        link: "products.index",
         method: "get",
         permission: "1",
     },
     {
         name: "Discounts",
         icon: DiscountIcon,
-        link: "admin/index",
+        link: "transactions.index",
         method: "get",
         permission: "1",
     },
@@ -77,7 +77,7 @@ const menus = [
     {
         name: "Notifications",
         icon: NotificationIcon,
-        link: "admin/customers",
+        link: "customers.index",
         method: "get",
         permission: "2",
     },

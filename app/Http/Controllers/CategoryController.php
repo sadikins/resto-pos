@@ -30,8 +30,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,jgp,png|max:2000',
-            'name' => 'required|unique:categories',
+            'image'       => 'required|image|mimes:jpeg,jgp,png|max:2000',
+            'name'        => 'required|unique:categories',
             'description' => 'required'
         ]);
 
@@ -41,8 +41,8 @@ class CategoryController extends Controller
 
         // create category
         Category::create([
-            'image' => $image->hashName(),
-            'name' => $request->name,
+            'image'       => $image->hashName(),
+            'name'        => $request->name,
             'description' => $request->description
         ]);
 
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories,name,' .$category->id,
+            'name'        => 'required|unique:categories,name,' .$category->id,
             'description' => 'required'
         ]);
 
@@ -74,15 +74,15 @@ class CategoryController extends Controller
 
             // update category with new image
             $category->update([
-                'image' => $image->hashName(),
-                'name' => $request->name,
+                'image'       => $image->hashName(),
+                'name'        => $request->name,
                 'description' => $request->description
             ]);
         }
 
         // update category without image
         $category->update([
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description
         ]);
 
